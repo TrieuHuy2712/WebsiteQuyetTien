@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DienMayWebsiteQuyetTien.Models.LoaiSanPham>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new {@class="btn btn-primary"})
+</p>
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TenLoai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenLoai)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <style>
+        div.dataTables_wrapper div.dataTables_filter {
+            width: 100%;
+            float: none;
+            text-align: left;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            var table = $('#myTable').DataTable({
+                lengthChange: false
+            });
+        });
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+
+}

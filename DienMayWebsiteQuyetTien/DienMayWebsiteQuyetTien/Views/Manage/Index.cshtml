@@ -7,31 +7,31 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new {@class="btn btn-success" })
 </p>
 <table class="table" id="myTable">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.MaSP)
+                Mã Sản Phẩm
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TenSP)
+                Tên Sản Phẩm
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GiaBan)
+               Giá bán
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GiaGoc)
+               Giá gốc
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GiaGop)
+               Giá góp
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SoLuongTon)
+                Số lượng tồn
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LoaiSanPham.TenLoai)
+               Tên loại
             </th>
             <th></th>
         </tr>
@@ -41,30 +41,29 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaSP)
+                   @item.MaSP
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TenSP)
+                    @item.TenSP
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.GiaBan)
+                   @item.GiaBan.ToString("#,##")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.GiaGoc)
+                   @item.GiaGoc.ToString("#,##")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.GiaGop)
+                   @item.GiaGop.ToString("#,##")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SoLuongTon)
+                    @item.SoLuongTon
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LoaiSanPham.TenLoai)
+                   @item.LoaiSanPham.TenLoai
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                    @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "btn btn-primary glyphicon glyphicon-pencil" }) 
+                    @Html.ActionLink(" ", "Delete", new { id = item.id }, new { @class = "btn btn-danger glyphicon glyphicon-trash" })
                 </td>
             </tr>
         }
