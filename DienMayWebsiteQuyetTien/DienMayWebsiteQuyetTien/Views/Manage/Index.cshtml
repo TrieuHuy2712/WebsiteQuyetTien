@@ -33,6 +33,9 @@
             <th>
                Tên loại
             </th>
+            <th>
+                Hình ảNH
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -61,6 +64,9 @@
                 <td>
                    @item.LoaiSanPham.TenLoai
                 </td>
+                <td>
+                    
+                    <img src="@Url.Action("Details", new  { id = item.id })" width="70" height="50" />
                 <td>
                     @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "btn btn-primary glyphicon glyphicon-pencil" }) 
                     @Html.ActionLink(" ", "Delete", new { id = item.id }, new { @class = "btn btn-danger glyphicon glyphicon-trash" })

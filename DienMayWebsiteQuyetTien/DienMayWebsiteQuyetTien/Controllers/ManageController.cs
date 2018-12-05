@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using DienMayWebsiteQuyetTien.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using DienMayWebsiteQuyetTien.Models;
 using System.Transactions;
+using System.Web.Mvc;
 
 namespace DienMayWebsiteQuyetTien.Controllers
 {
@@ -25,11 +21,12 @@ namespace DienMayWebsiteQuyetTien.Controllers
         // GET: /Manage/Details/5
         public FileResult Details(string id)
         {
-            var path = Server.MapPath("~/App_Data");
+            var path = Server.MapPath("~/Content/HinhAnh");
             path = System.IO.Path.Combine(path, id);
 
-            return File(path,"image");
+            return File(path, "images");
         }
+
         private void CheckBangSanPham(BangSanPham model)
         {
             if (model.GiaGoc < 0)
@@ -43,6 +40,7 @@ namespace DienMayWebsiteQuyetTien.Controllers
                 ModelState.AddModelError("SoLuongTon", "So luong ton phai lon hon 0");
             }
         }
+
         // GET: /Manage/Create
         public ActionResult Create()
         {
@@ -51,7 +49,7 @@ namespace DienMayWebsiteQuyetTien.Controllers
         }
 
         // POST: /Manage/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -65,11 +63,10 @@ namespace DienMayWebsiteQuyetTien.Controllers
                     db.BangSanPhams.Add(model);
                     db.SaveChanges();
 
-
                     if (Request.Files["HinhAnh"] != null && Request.Files["HinhAnh"].ContentLength > 0)
                     {
-                        var path = Server.MapPath("~/App_Data");
-                        path = System.IO.Path.Combine(path, model.id.ToString());
+                        var path = Server.MapPath("~/Content/HinhAnh");
+                        path = System.IO.Path.Combine(path, model.id.ToString()+".png");
                         Request.Files["HinhAnh"].SaveAs(path);
                         scope.Complete();
                         return RedirectToAction("Index");
@@ -78,8 +75,6 @@ namespace DienMayWebsiteQuyetTien.Controllers
                     {
                         ModelState.AddModelError("HinhAnh", "Chua chon hinh anh cho san pham");
                     }
-
-                    
                 }
             }
 
@@ -104,20 +99,35 @@ namespace DienMayWebsiteQuyetTien.Controllers
         }
 
         // POST: /Manage/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="id,MaSP,TenSP,Loai_id,GiaBan,GiaGoc,GiaGop,SoLuongTon")] BangSanPham bangsanpham)
+        public ActionResult Edit(BangSanPham model)
         {
+            CheckBangSanPham(model);
             if (ModelState.IsValid)
             {
-                db.Entry(bangsanpham).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var scope = new TransactionScope())
+                {
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    if (Request.Files["HinhAnh"] != null && Request.Files["HinhAnh"].ContentLength > 0)
+                    {
+                        var path = Server.MapPath("~/Content/HinhAnh");
+                        path = System.IO.Path.Combine(path, model.id.ToString());
+                        Request.Files["HinhAnh"].SaveAs(path);
+                        
+                    }
+                    scope.Complete();
+                    return RedirectToAction("Index");
+                    
+                }
             }
-            ViewBag.Loai_id = new SelectList(db.LoaiSanPhams, "id", "TenLoai", bangsanpham.Loai_id);
-            return View(bangsanpham);
+
+            ViewBag.Loai_id = new SelectList(db.LoaiSanPhams, "id", "TenLoai", model.Loai_id);
+            return View(model);
         }
 
         // GET: /Manage/Delete/5

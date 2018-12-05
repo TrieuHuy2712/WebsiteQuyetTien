@@ -195,6 +195,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\400.png" />
     <Content Include="Content\banner.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -270,7 +271,8 @@
     <Content Include="Views\ManageCategory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\HinhAnh\" />
+    <Folder Include="Content\HinhAnh\" />
     <Folder Include="Views\QuanLy\" />
   </ItemGroup>
   <ItemGroup>
